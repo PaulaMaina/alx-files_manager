@@ -1,3 +1,4 @@
+#!/usr/bin/yarn dev
 import { readFileSync, existsSync } from 'fs';
 
 const dbEnvVariables = () => {
