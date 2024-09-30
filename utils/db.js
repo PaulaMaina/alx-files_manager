@@ -1,7 +1,8 @@
 #!/usr/bin/yarn dev
+
 // eslint-disable-next-line no-unused-vars
 import Collection from 'mongodb/lib/collection';
-import dbEnvVariables from './db_env';
+import dbEnvVariables from './env_db';
 import mongodb from 'mongodb';
 
 class DBClient {
@@ -9,7 +10,7 @@ class DBClient {
     dbEnvVariables();
     const host = process.env.DB_HOST || 'localhost';
     const port = process.env.DB_PORT || 27017;
-    const database = process.env.Db_DATABASE || 'files_manager';
+    const database = process.env.DB_DATABASE || 'files_manager';
     const databaseURL = `mongodb://${host}:${port}/${database}`;
 
     this.client = new mongodb.MongoClient(databaseURL, { useUnifiedTopology: true });
