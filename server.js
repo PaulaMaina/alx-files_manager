@@ -1,7 +1,7 @@
 #!/usr/bin/yarn dev
 import express from 'express';
 import apiEndpoints from './routes/index';
-import dbEnvVariables from '../utils/env_db.js';
+import dbEnvVariables from './utils/env_db.js';
 
 const server = express();
 

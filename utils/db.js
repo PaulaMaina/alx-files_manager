@@ -1,9 +1,8 @@
 #!/usr/bin/yarn dev
-
-// eslint-disable-next-line no-unused-vars
-import Collection from 'mongodb/lib/collection';
-import dbEnvVariables from './env_db';
 import mongodb from 'mongodb';
+// eslint-disable-next-line no-unused-vars
+import collection from 'mongodb/lib/collection';
+import dbEnvVariables from './env_db';
 
 class DBClient {
   constructor() {
@@ -14,29 +13,41 @@ class DBClient {
     const databaseURL = `mongodb://${host}:${port}/${database}`;
 
     this.client = new mongodb.MongoClient(databaseURL, { useUnifiedTopology: true });
-    this.client.connect();
+  }
+
+  async connect() {
+    try {
+      await this.client.connect();
+      console.log('Connected to MongoDB');
+    } catch (err) {
+      console.error('Failed to connect to MongoDB:', err);
+    }
   }
 
   isAlive() {
-    return this.client.isConnected();
+    return this.client.topology.isConnected();
   }
 
   async nbUsers() {
+    await this.connect();
     return this.client.db().collection('users').countDocuments();
   }
 
   async nbFiles() {
+    await this.connect();
     return this.client.db().collection('files').countDocuments();
   }
 
   async usersCollection() {
+    await this.connect();
     return this.client.db().collection('users');
   }
 
-  async filesCollection() {
+  async filesCollectioni() {
+    await this.connect();
     return this.client.db().collection('files');
   }
 }
 
-const dbClient = new DBClient();
+export const dbClient = new DBClient();
 export default dbClient;
