@@ -1,4 +1,3 @@
-#!/usr/bin/yarn dev
 import mongodb from 'mongodb';
 // eslint-disable-next-line no-unused-vars
 import Collection from 'mongodb/lib/collection';
@@ -12,7 +11,12 @@ class DBClient {
     const database = process.env.DB_DATABASE || 'files_manager';
     const databaseURL = `mongodb://${host}:${port}/${database}`;
 
-    this.client = new mongodb.MongoClient(databaseURL, { useUnifiedTopology: true });
+    this.client = new mongodb.MongoClient(
+      databaseURL,
+      { useUnifiedTopology: true },
+      { useNewUrlParser: true },
+      { connectTimeoutMS: 30000 },
+      { keepAlive: 1});
   }
 
   async connect() {
@@ -25,7 +29,7 @@ class DBClient {
   }
 
   isAlive() {
-    return this.client.isConnected();
+    return this.client.topology && this.client.topology.isConnected();
   }
 
   async nbUsers() {
