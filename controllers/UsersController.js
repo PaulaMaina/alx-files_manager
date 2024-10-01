@@ -27,7 +27,7 @@ class UsersController {
     }
     const addNewUser = await (await dbClient.usersCollection())
       .insertOne({ email, password: sha1(password) });
-    const userId = addNewUser.insertedID.toString();
+    const userId = addNewUser.insertedId.toString();
 
     queue.add({ userId });
     response.status(201).json({ email, id: userId });
