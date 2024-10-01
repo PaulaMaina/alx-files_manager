@@ -1,9 +1,9 @@
 /* eslint-disable import/no-named-as-default */
-import redisClient from '../utiils/redis';
+import redisClient from '../utils/redis';
 import { v4 as uuidv4 } from 'uuid';
 
 class AuthController {
-  static async getConnected(request, response) {
+  static async getConnect(request, response) {
     const { user } = request;
     const authToken = uuidv4();
 
