@@ -33,7 +33,7 @@ class UsersController {
     response.status(201).json({ email, id: userId });
   }
 
-  static async getCurrentUSer(request, response) {
+  static async getMe(request, response) {
     const { user } = request;
 
     response.status(200).json({ email: user.email, id: user._id.toString() });
