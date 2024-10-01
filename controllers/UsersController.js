@@ -3,10 +3,10 @@ import dbClient from '../utils/db';
 import Queue from 'bull/lib/queue';
 import sha1 from 'sha1';
 
-const queue = new Queue('sending_emails');
+const queue = new Queue('email sending');
 
 class UsersController {
-  static async postNew(request, response){
+  static async postNew(request, response) {
     const email = request.body ? request.body.email : null;
     const password = request.body ? request.body.password : null;
 
