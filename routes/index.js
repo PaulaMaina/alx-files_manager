@@ -1,7 +1,6 @@
 import AuthController from '../controllers/AuthController';
 import AppController from '../controllers/AppController';
-import { APIError, errResponse } from '../utils/auth';
-import { basicAuthentication, xTokenAuthentication } from '../utils/auth';
+import { APIError, errResponse, basicAuthentication, xTokenAuthentication } from '../utils/auth';
 // eslint-disable-next-line no-unused-vars
 import { Express } from 'express';
 import FilesController from '../controllers/FilesController';
