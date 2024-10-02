@@ -22,14 +22,22 @@ const apiEndpoints = (app) => {
   app.get('/files', xTokenAuthentication, FilesController.getIndex);
   app.get('/files/:id', xTokenAuthentication, FilesController.getShow);
   app.get('/files/:id/data', FilesController.getFile);
-  app.put('/files/:id/publish', xTokenAuthentication, FilesController.putPublish);
-  app.put('/files/:id/unpublish', xTokenAuthentication, FilesController.putUnpublish);
+  app.put(
+    '/files/:id/publish',
+    xTokenAuthentication,
+    FilesController.putPublish
+  );
+  app.put(
+    '/files/:id/unpublish',
+    xTokenAuthentication,
+    FilesController.putUnpublish
+  );
 
   app.all('*', (request, response, next) => {
     errResponse(new APIError(
       404,
       `Cannot ${request.method} ${request.url}`),
-      request, response, next
+    request, response, next
     );
   });
   app.use(errResponse);
