@@ -1,7 +1,6 @@
-/* eslint-disable import/no-named-as-default */
 /* eslint-disable no-unused-vars */
 import dbClient from './db';
-import monogDBCore from 'mongodb/lib/core';
+import mongoDBCore from 'mongodb/lib/core';
 import redisClient from './redis';
 import { Request, Response, NextFunction } from 'express';
 import sha1 from 'sha1';

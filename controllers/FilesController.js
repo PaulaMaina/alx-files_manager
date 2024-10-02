@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default */
 /* eslint-disable no-unused-vars */
 import { contentType } from 'mime-types';
 import dbClient from '../utils/db';
@@ -75,7 +74,7 @@ class FilesController {
 
     if ((parentId !== rootFolderID) && (parentId !== rootFolderID.toString())) {
       const file = await (await dbClient.filesCollection())
-        .findOne({ _id: new mongoDBcore.BSON.ObjectId(isIdValid(parentId) ? parentId : nullID) });
+        .findOne({ _id: new mongoDBCore.BSON.ObjectId(isIdValid(parentId) ? parentId : nullID) });
 
       if (!file) {
         response.status(400).json({ error: 'Parent not found' });
@@ -143,7 +142,7 @@ class FilesController {
       name: file.name,
       type: file.type,
       isPublic: file.isPublic,
-      parentId: file.parentId === rootFolderId.toString()
+      parentId: file.parentId === rootFolderID.toString()
         ? 0 : file.parentId.toString(),
     });
   }
@@ -248,7 +247,7 @@ class FilesController {
     };
     const file = await (await dbClient.filesCollection())
       .findOne(findFile);
-    const filepath = file.localPath;
+    let filepath = file.localPath;
   
     if (!file || (!file.isPublic && (file.userId.toString() !== userId))) {
       response.status(404).json({ error: 'Not found' });

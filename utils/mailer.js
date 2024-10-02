@@ -9,7 +9,7 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 const TOKEN_PATH = 'token.json';
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
-  const authUrl = oAuth2Client.generateAuthUrl({
+const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
   });
