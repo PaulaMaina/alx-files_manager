@@ -1,4 +1,3 @@
-#!/usr/bin/yarn dev
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
