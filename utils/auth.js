@@ -34,7 +34,7 @@ export const userAuthorization = async (request) => {
   }
 };
 
-export const userFromXTokenHeader = async (request) => {
+export const userFromXToken = async (request) => {
   const authToken = request.headers['x-token'];
 
   if (!authToken) {
@@ -46,7 +46,8 @@ export const userFromXTokenHeader = async (request) => {
   if (!userId) {
     return null;
   }
-  const user = await (await dbClient.usersCollection()).findOne({ _id: new mongoDBCore.BSON.ObjectId(userId) });
+  const user = await (await dbClient.usersCollection())
+    .findOne({ _id: new mongoDBCore.BSON.ObjectId(userId) });
 
   return user || null;
 };
@@ -63,7 +64,7 @@ export const basicAuthentication = async (request, response, next) => {
 };
 
 export const xTokenAuthentication = async (request, response, next) => {
-  const user = await userFromXTokenHeader(request);
+  const user = await userFromXToken(request);
 
   if (!user) {
     response.status(401).json({ error: 'Unauthorized' });
@@ -74,10 +75,10 @@ export const xTokenAuthentication = async (request, response, next) => {
 };
 
 export class APIError extends Error {
-  constructor(code, msg) {
+  constructor(code, message) {
     super();
     this.code = code || 500;
-    this.message = msg;
+    this.message = message;
   }
 }
 
@@ -88,10 +89,12 @@ export const errResponse = (error, request, response, next) => {
     response.status(error.code).json({ error: error.message || msg });
     return;
   }
-  response.status(500).json({ error: error ? error.message || error.toString() : msg });
+  response.status(500).json({
+    error: error ? error.message || error.toString() : msg
+  });
 };
 
 export default {
   userAuthorization: async (request) => userAuthorization(request),
-  userFromXTokenHeader: async (request) => userFromXTokenHeader(request),
+  userFromXToken: async (request) => userFromXToken(request),
 };
