@@ -29,7 +29,7 @@ const apiEndpoints = (app) => {
     errResponse(new APIError(
       404,
       `Cannot ${request.method} ${request.url}`),
-      request, response, next,
+      request, response, next
     );
   });
   app.use(errResponse);

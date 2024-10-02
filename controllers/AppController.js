@@ -6,14 +6,14 @@ class AppController {
   static getStatus(_request, response) {
     response.status(200).json({
       redis: redisClient.isAlive(),
-      db: dbClient.isAlive(),
+      db: dbClient.isAlive()
     });
   }
 
   static getStats(request, response) {
     Promise.all([dbClient.nbUsers(), dbClient.nbFiles()])
       .then(([numOfUsers, numOfFiles]) => {
-        response.status(200).json({users: numOfUsers, files: numOfFiles});
+        response.status(200).json({ users: numOfUsers, files: numOfFiles });
       });
   }
 }
