@@ -24,7 +24,7 @@ const mkdirAsync = promisify(mkdir);
 const writefileAsync  = promisify(writeFile);
 const statAsync = promisify(stat);
 const realpathAsync = promisify(realpath);
-const queue = new Queue('thumbnail generation');
+const fileQueue = new Queue('thumbnail generation');
 const nullID = Buffer.alloc(24, '0').toString('utf-8');
 const isIdValid = (id) => {
   const size = 24;
@@ -106,20 +106,20 @@ class FilesController {
     }
     const addNewFile = await (await dbClient.filesCollection())
       .insertOne(newFile);
-    const fileID = addNewFile.insertedId.toString();
+    const fileId = addNewFile.insertedId.toString();
 
-    if (fileType === validFileTypes.image) {
-      const job = `Image thumbnail [${userID}-${fileID}]`;
+    if (type === validFileTypes.image) {
+      const job = `Image thumbnail [${userId}-${fileId}]`;
 	
-      queue.add({ userId, fileID, name: job });
+      fileQueue.add({ userId, fileId, name: job });
     }
     response.status(201).json({
-      id: fileID,
+      id: fileId,
       userId,
       name,
       type,
       isPublic,
-      parentId: (parentId === rootFolderID) || (parentId === rootFolderID.toSting())
+      parentId: (parentId === rootFolderID) || (parentId === rootFolderID.toString())
         ? 0 : parentId,
     });
   }
@@ -139,7 +139,7 @@ class FilesController {
     }
     response.status(200).json({ 
       id,
-      userID,
+      userId,
       name: file.name,
       type: file.type,
       isPublic: file.isPublic,
@@ -205,7 +205,7 @@ class FilesController {
       name: file.name,
       type: file.type,
       isPublic: true,
-      parentId: file.parentId === rootFolderId.toString()
+      parentId: file.parentId === rootFolderID.toString()
         ? 0 : file.parentId.toString(),
     });
   }
@@ -233,7 +233,7 @@ class FilesController {
       name: file.name,
       type: file.type,
       isPublic: true,
-      parentId: file.parentId === rootFolderId.toString()
+      parentId: file.parentId === rootFolderID.toString()
         ? 0 : file.parentId.toString(),
     });
   }

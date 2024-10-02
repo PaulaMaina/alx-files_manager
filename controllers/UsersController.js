@@ -3,7 +3,7 @@ import dbClient from '../utils/db';
 import Queue from 'bull/lib/queue';
 import sha1 from 'sha1';
 
-const queue = new Queue('email sending');
+const userQueue = new Queue('email sending');
 
 class UsersController {
   static async postNew(request, response) {
@@ -29,7 +29,7 @@ class UsersController {
       .insertOne({ email, password: sha1(password) });
     const userId = addNewUser.insertedId.toString();
 
-    queue.add({ userId });
+    userQueue.add({ userId });
     response.status(201).json({ email, id: userId });
   }
 
