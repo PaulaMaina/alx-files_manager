@@ -23,7 +23,7 @@ const apiEndpoints = (app) => {
   app.get('/files/:id', xTokenAuthentication, FilesController.getShow);
   app.get('/files/:id/data', FilesController.getFile);
   app.put('/files/:id/publish', xTokenAuthentication, FilesController.putPublish);
-  app.put('/files/:id/publish', xTokenAuthentication, FilesController.putUnpublish);
+  app.put('/files/:id/unpublish', xTokenAuthentication, FilesController.putUnpublish);
 
   app.all('*', (request, response, next) => {
     errResponse(new APIError(
