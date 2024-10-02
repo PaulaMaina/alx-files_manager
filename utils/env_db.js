@@ -28,4 +28,3 @@ const dbEnvVariables = () => {
 };
 
 export default dbEnvVariables;
-
