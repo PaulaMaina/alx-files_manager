@@ -3,8 +3,6 @@ import AppController from '../controllers/AppController';
 import {
   APIError, errResponse, basicAuthentication, xTokenAuthentication
 } from '../utils/auth';
-// eslint-disable-next-line no-unused-vars
-import { Express } from 'express';
 import FilesController from '../controllers/FilesController';
 import UsersController from '../controllers/UsersController';
 
@@ -34,11 +32,8 @@ const apiEndpoints = (app) => {
   );
 
   app.all('*', (request, response, next) => {
-    errResponse(new APIError(
-      404,
-      `Cannot ${request.method} ${request.url}`),
-    request, response, next
-    );
+    const error = new APIError(404, `Cannot ${request.method} ${request.url}`);
+    errResponse(error, request, response, next);
   });
   app.use(errResponse);
 };
