@@ -4,6 +4,7 @@ import { APIError, errResponse } from '../utils/auth';
 import { basicAuthentication, xTokenAuthentication } from '../utils/auth';
 // eslint-disable-next-line no-unused-vars
 import { Express } from 'express';
+import FilesController from '../controllers/FilesController';
 import UsersController from '../controllers/UsersController';
 
 const apiEndpoints = (app) => {
@@ -15,6 +16,13 @@ const apiEndpoints = (app) => {
 
   app.get('/connect', basicAuthentication, AuthController.getConnect);
   app.get('/disconnect', xTokenAuthentication, AuthController.getDisconnect);
+
+  app.post('/files', xTokenAuthentication, FilesController.postUpload);
+  app.get('/files', xTokenAuthentication, FilesController.getIndex);
+  app.get('/files/:id', xTokenAuthentication, FilesController.getShow);
+  app.get('/files/:id/data', FilesController.getFile);
+  app.put('/files/:id/publish', xTokenAuthentication, FilesController.putPublish);
+  app.put('/files/:id/publish', xTokenAuthentication, FilesController.putUnPublish);
 
   app.all('*', (request, response, next) => {
     errResponse(new APIError(404, `Cannot ${request.method} ${request.url}`), request, response, next);
