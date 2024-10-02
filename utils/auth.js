@@ -7,28 +7,32 @@ import { Request, Response, NextFunction } from 'express';
 import sha1 from 'sha1';
 
 export const userAuthorization = async (request) => {
-  const authHeader = request.headers.authorization || null;
+  try {
+    const authHeader = request.headers.authorization || null;
 
-  if (!authHeader) {
-    return null;
+    if (!authHeader) {
+      return null;
+    }
+
+    const authParts = authHeader.split(' ');
+
+    if (authParts.length !== 2 || authParts[0] !== 'Basic') {
+      return null;
+    }
+
+    const authToken = Buffer.from(authParts[1], 'base64').toString();
+    const delimPos = authToken.indexOf(':');
+    const email = authToken.substring(0, delimPos);
+    const password = authToken.substring(delimPos + 1);
+    const user = await (await dbClient.usersCollection()).findOne({ email });
+
+    if (!user || sha1(password) !== user.password) {
+      return null;
+    }
+    return user;
+  } catch (error) {
+    console.log(error)
   }
-
-  const authParts = authHeader.split(' ');
-
-  if (authParts.length !== 2 || authParts[0] !== 'Basic') {
-    return null;
-  }
-
-  const authToken = Buffer.from(authParts[1], 'base64').toString();
-  const delimPos = authToken.indexOf(':');
-  const email = authToken.substring(0, delimPos);
-  const password = authToken.substring(delimPos + 1);
-  const user = await (await dbClient.usersCollection()).findOne({ email });
-
-  if (!user || sha1(password) !== user.password) {
-    return null;
-  }
-  return user;
 };
 
 export const userFromXTokenHeader = async (request) => {

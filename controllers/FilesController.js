@@ -276,3 +276,5 @@ class FilesController {
     response.status(200).sendFile(absFilePath);
   }
 }
+
+export default FilesController;
