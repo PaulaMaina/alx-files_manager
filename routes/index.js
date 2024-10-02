@@ -1,6 +1,8 @@
 import AuthController from '../controllers/AuthController';
 import AppController from '../controllers/AppController';
-import { APIError, errResponse, basicAuthentication, xTokenAuthentication } from '../utils/auth';
+import {
+  APIError, errResponse, basicAuthentication, xTokenAuthentication
+} from '../utils/auth';
 // eslint-disable-next-line no-unused-vars
 import { Express } from 'express';
 import FilesController from '../controllers/FilesController';
@@ -24,7 +26,11 @@ const apiEndpoints = (app) => {
   app.put('/files/:id/publish', xTokenAuthentication, FilesController.putUnpublish);
 
   app.all('*', (request, response, next) => {
-    errResponse(new APIError(404, `Cannot ${request.method} ${request.url}`), request, response, next);
+    errResponse(new APIError(
+      404,
+      `Cannot ${request.method} ${request.url}`),
+      request, response, next,
+    );
   });
   app.use(errResponse);
 };

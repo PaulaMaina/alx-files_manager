@@ -10,10 +10,9 @@ server.use(express.json({ limit: '200mb' }));
 const startServer = (app) => {
   dbEnvVariables();
   const port = process.env.PORT || 5000;
-  const env = process.env.npm_lifecycle_event || 'dev';
 
   app.listen(port, () => {
-    console.log(`[${env}] Server listening on localhost at port ${port}`);
+    console.log(`Server listening on localhost at port ${port}`);
   });
 };
 
